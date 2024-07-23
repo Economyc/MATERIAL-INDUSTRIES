@@ -2,6 +2,7 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 from PIL import Image
 import matplotlib.pyplot as plt
+import Inicio
 import POS
 import Inventario
 import Reportes
@@ -28,7 +29,7 @@ class MultiApp:
 
         with st.sidebar:
             app = option_menu(
-                menu_title="Panel de Operaciones",
+                menu_title="MATERIAL INDUSTRIES",
                 options=["Inicio", "POS", "Inventario", "Reportes"],
                 icons=['house-fill', 'card-list', 'box-seam-fill', 'bar-chart-fill'],
                 menu_icon='chat-text-fill',
@@ -46,6 +47,7 @@ class MultiApp:
                 app_info["function"]()
 
 multi_app = MultiApp()
+multi_app.add_app("Inicio", Inicio.app)
 multi_app.add_app("POS", POS.app)
 multi_app.add_app("Inventario", Inventario.app)
 multi_app.add_app("Reportes", Reportes.app)
