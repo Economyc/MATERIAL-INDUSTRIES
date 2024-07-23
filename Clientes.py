@@ -7,9 +7,9 @@ CSV_URL = 'https://drive.google.com/file/d/1rNdq54U7ru8TCG056CEvr-4OvjqlvQLk/vie
 
 def obtener_clientes():
     # Descarga el archivo CSV
-    gdown.download(CSV_URL, 'clientes.csv', quiet=False)
+    gdown.download(CSV_URL, 'Clientes.csv', quiet=False)
     # Carga el archivo CSV en un DataFrame de Pandas
-    return pd.read_csv('clientes.csv')
+    return pd.read_csv('Clientes.csv')
 
 def agregar_cliente(nombre, cedula, celular, correo, direccion):
     # Carga los clientes existentes
@@ -20,7 +20,7 @@ def agregar_cliente(nombre, cedula, celular, correo, direccion):
     # Añade los nuevos datos al DataFrame existente
     clientes_df = pd.concat([clientes_df, nuevos_datos], ignore_index=True)
     # Guarda el DataFrame actualizado en el archivo CSV
-    clientes_df.to_csv('clientes.csv', index=False)
+    clientes_df.to_csv('Clientes.csv', index=False)
 
 def app_clientes():
     st.title("Formulario de Clientes")
