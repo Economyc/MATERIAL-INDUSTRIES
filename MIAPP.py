@@ -1,64 +1,63 @@
 import streamlit as st
-from streamlit_option_menu import option_menu
-from PIL import Image
 import pandas as pd
-import matplotlib.pyplot as plt
-import Inicio
-import POS
-import Inventario
-import Reportes
-import Clientes
+import requests
+import os
 
-st.set_page_config(
-    page_title="MATERIAL INDUSTRIES",
-    page_icon="MI.ico"
-)
+# URL del archivo CSV en Google Drive (reemplaza FILE_ID con el ID del archivo)
+CSV_URL = 'https://drive.google.com/uc?id=1l8Bp3gHQan2a0X1lVTxoN92REYbN9Lxm'
 
-class MultiApp:
+def descargar_csv(url, nombre_archivo):
+    response = requests.get(url)
+    with open(nombre_archivo, 'wb') as f:
+        f.write(response.content)
+    st.write(f"Archivo descargado como {nombre_archivo}")
 
-    def __init__(self):
-        self.apps = []
+def obtener_clientes():
+    # Descarga el archivo CSV
+    descargar_csv(CSV_URL, 'Clientes.csv')
+    # Carga el archivo CSV en un DataFrame de Pandas con el delimitador adecuado
+    try:
+        return pd.read_csv('Clientes.csv', encoding='utf-8', delimiter=';')  # Cambia el delimitador a punto y coma
+    except UnicodeDecodeError:
+        return pd.read_csv('Clientes.csv', encoding='ISO-8859-1', delimiter=';')  # Cambia el delimitador a punto y coma
+    except pd.errors.ParserError:
+        st.error("Error al analizar el archivo CSV. Verifica el formato del archivo.")
+        return pd.DataFrame()  # Devuelve un DataFrame vacío en caso de error
 
-    def add_app(self, title, function): 
-        self.apps.append({
-            "title": title,
-            "function": function
-        })
+def agregar_cliente(nombre, cedula, celular, correo, direccion):
+    # Carga los clientes existentes
+    clientes_df = obtener_clientes()
+    # Crea un nuevo DataFrame con el cliente nuevo
+    nuevos_datos = pd.DataFrame([[nombre, cedula, celular, correo, direccion]], 
+                                columns=["Nombre", "Cedula", "Celular", "Correo", "Dirección"])
+    # Añade los nuevos datos al DataFrame existente
+    clientes_df = pd.concat([clientes_df, nuevos_datos], ignore_index=True)
+    # Guarda el DataFrame actualizado en el archivo CSV
+    clientes_df.to_csv('Clientes.csv', index=False, sep=';')  # Guarda el archivo con el delimitador adecuado
+    st.write("Datos guardados correctamente en 'Clientes.csv'")
 
-    def run(self):
-        # Añadir imagen
+def app_clientes():
+    st.title("Formulario de Clientes")
 
-        with st.sidebar:
-            app = option_menu(
-                menu_title="MATERIAL INDUSTRIES",
-                options=["Inicio", "POS", "Inventario", "Reportes", "Clientes"],
-                icons=['house-fill', 'card-list', 'box-seam-fill', 'bar-chart-fill', "person-fill"],
-                menu_icon='chat-text-fill',
-                default_index=0,  # Establecer el índice por defecto a "Home"
-                styles={
-                    "container": {"padding": "5!important", "background-color": 'black'},
-                    "icon": {"color": "white", "font-size": "23px"}, 
-                    "nav-link": {"color": "white", "font-size": "20px", "text-align": "left", "margin": "0px", "--hover-color": "blue"},
-                    "nav-link-selected": {"background-color": "#02ab21"}
-                }
-            )
+    # Crear formulario
+    with st.form(key='cliente_form'):
+        nombre = st.text_input("Nombre")
+        cedula = st.text_input("Cédula")
+        celular = st.text_input("Celular")
+        correo = st.text_input("Correo")
+        direccion = st.text_input("Dirección")
 
-        for app_info in self.apps:
-            if app == app_info["title"]:
-                app_info["function"]()
+        submit_button = st.form_submit_button(label="Agregar Cliente")
+        
+        if submit_button:
+            agregar_cliente(nombre, cedula, celular, correo, direccion)
+            st.success("Cliente agregado exitosamente!")
+    
+    # Mostrar la tabla de clientes
+    st.subheader("Clientes Registrados")
+    clientes_df = obtener_clientes()
+    if not clientes_df.empty:
+        st.dataframe(clientes_df)
 
-multi_app = MultiApp()
-multi_app.add_app("Inicio", Inicio.app)
-multi_app.add_app("POS", POS.app)
-multi_app.add_app("Inventario", Inventario.app)
-multi_app.add_app("Clientes", Clientes.app)
-multi_app.add_app("Reportes", Reportes.app)
-
-
-
-def new_func(multi_app):
-    print("Aplicaciones agregadas:", [app_info["title"] for app_info in multi_app.apps])
-
-    multi_app.run()
-
-new_func(multi_app)
+# Asegúrate de que `app_clientes` sea accesible como `app`
+app = app_clientes
