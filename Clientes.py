@@ -3,7 +3,7 @@ import pandas as pd
 import gdown
 
 # URL del archivo CSV en Google Drive (reemplaza FILE_ID con el ID del archivo)
-CSV_URL = 'https://drive.google.com/uc?id=1rNdq54U7ru8TCG056CEvr-4OvjqlvQLk'
+CSV_URL = 'https://drive.google.com/file/d/1l8Bp3gHQan2a0X1lVTxoN92REYbN9Lxm/view?usp=sharing'
 
 def obtener_clientes():
     # Descarga el archivo CSV
