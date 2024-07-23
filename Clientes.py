@@ -2,9 +2,8 @@ import streamlit as st
 import pandas as pd
 import gdown
 
-
-# Enlace del archivo CSV en Google Drive (reemplaza FILE_ID con el ID del archivo)
-CSV_URL = 'https://drive.google.com/file/d/1rNdq54U7ru8TCG056CEvr-4OvjqlvQLk/view?usp=drive_link'
+# URL del archivo CSV en Google Drive (reemplaza FILE_ID con el ID del archivo)
+CSV_URL = 'https://drive.google.com/uc?id=1rNdq54U7ru8TCG056CEvr-4OvjqlvQLk'
 
 def obtener_clientes():
     # Descarga el archivo CSV
@@ -44,3 +43,6 @@ def app_clientes():
     st.subheader("Clientes Registrados")
     clientes_df = obtener_clientes()
     st.dataframe(clientes_df)
+
+# Asegúrate de que `app_clientes` sea accesible como `app`
+app = app_clientes
