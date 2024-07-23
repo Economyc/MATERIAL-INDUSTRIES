@@ -6,6 +6,7 @@ import Inicio
 import POS
 import Inventario
 import Reportes
+import Clientes
 
 st.set_page_config(
     page_title="MATERIAL INDUSTRIES",
@@ -29,8 +30,8 @@ class MultiApp:
         with st.sidebar:
             app = option_menu(
                 menu_title="MATERIAL INDUSTRIES",
-                options=["Inicio", "POS", "Inventario", "Reportes"],
-                icons=['house-fill', 'card-list', 'box-seam-fill', 'bar-chart-fill'],
+                options=["Inicio", "POS", "Inventario", "Reportes", "Clientes"],
+                icons=['house-fill', 'card-list', 'box-seam-fill', 'bar-chart-fill', "person-fill"],
                 menu_icon='chat-text-fill',
                 default_index=0,  # Establecer el índice por defecto a "Home"
                 styles={
@@ -49,7 +50,9 @@ multi_app = MultiApp()
 multi_app.add_app("Inicio", Inicio.app)
 multi_app.add_app("POS", POS.app)
 multi_app.add_app("Inventario", Inventario.app)
+multi_app.add_app("Clientes", Clientes.app)
 multi_app.add_app("Reportes", Reportes.app)
+
 
 
 print("Aplicaciones agregadas:", [app_info["title"] for app_info in multi_app.apps])

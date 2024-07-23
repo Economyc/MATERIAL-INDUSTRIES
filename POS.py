@@ -1,8 +1,8 @@
 import streamlit as st
 
 def app():
-    st.title("Mi Nueva Aplicación")
-    st.subheader("Descripción de la aplicación")
+    st.title("Punto de Venta")
+    
 
     # Aquí puedes agregar más componentes de Streamlit según sea necesario
 
