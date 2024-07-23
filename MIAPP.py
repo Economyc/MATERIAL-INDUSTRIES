@@ -56,6 +56,9 @@ multi_app.add_app("Reportes", Reportes.app)
 
 
 
-print("Aplicaciones agregadas:", [app_info["title"] for app_info in multi_app.apps])
+def new_func(multi_app):
+    print("Aplicaciones agregadas:", [app_info["title"] for app_info in multi_app.apps])
 
-multi_app.run()
+    multi_app.run()
+
+new_func(multi_app)
