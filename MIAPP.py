@@ -12,6 +12,9 @@ st.set_page_config(
     page_icon="MI.ico"
 )
 
+# Mostrar el título en negrita dentro de la aplicación
+st.markdown("# **MATERIAL INDUSTRIES**")
+
 class MultiApp:
 
     def __init__(self):
