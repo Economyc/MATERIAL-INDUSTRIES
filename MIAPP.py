@@ -1,6 +1,4 @@
 import streamlit as st
-from streamlit_option_menu import option_menu
-from PIL import Image
 import Inicio
 import POS
 import Inventario
@@ -24,41 +22,19 @@ class MultiApp:
         })
 
     def run(self):
-        # Añadir imagen
-        # Puedes usar st.image para mostrar una imagen si es necesario
-        # Ejemplo: st.image("ruta/a/tu/imagen.png")
+        # Mostrar el título en negrita en el área principal
+        st.markdown("<h1 style='text-align: center; font-weight: bold;'>MATERIAL INDUSTRIES</h1>", unsafe_allow_html=True)
 
-        with st.sidebar:
-            st.markdown("""
-                <style>
-                /* Cambiar el tamaño y el estilo del botón de despliegue */
-                .css-1d391kg {
-                    font-size: 30px; /* Tamaño del icono */
-                }
-                .css-1d391kg svg {
-                    width: 30px; /* Ajustar el ancho del ícono */
-                    height: 30px; /* Ajustar la altura del ícono */
-                }
-                </style>
-                """, unsafe_allow_html=True)
-
-            app = option_menu(
-                menu_title="MATERIAL INDUSTRIES",
-                options=["Inicio", "POS", "Inventario", "Reportes"],
-                icons=['house-fill', 'card-list', 'box-seam-fill', 'bar-chart-fill'],
-                menu_icon='chat-text-fill',
-                default_index=0,  # Establecer el índice por defecto a "Inicio"
-                styles={
-                    "container": {"padding": "5!important", "background-color": 'black'},
-                    "icon": {"color": "white", "font-size": "23px"}, 
-                    "nav-link": {"color": "white", "font-size": "20px", "text-align": "left", "margin": "0px", "--hover-color": "blue"},
-                    "nav-link-selected": {"background-color": "#02ab21"}
-                }
-            )
+        # Crear el menú lateral personalizado
+        selected_option = st.sidebar.selectbox(
+            label="Selecciona una opción",
+            options=["Inicio", "POS", "Inventario", "Reportes"],
+            format_func=lambda x: f"**{x}**"
+        )
 
         # Ejecutar la función correspondiente al menú seleccionado
         for app_info in self.apps:
-            if app == app_info["title"]:
+            if selected_option == app_info["title"]:
                 app_info["function"]()
 
 # Crear y añadir aplicaciones al MultiApp
