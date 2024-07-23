@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import requests
-import os
 
 # URL del archivo CSV en Google Drive (reemplaza FILE_ID con el ID del archivo)
 CSV_URL = 'https://drive.google.com/uc?id=1l8Bp3gHQan2a0X1lVTxoN92REYbN9Lxm'
